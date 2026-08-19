@@ -70,6 +70,24 @@ final class DeploymentsTest extends TestCase
         );
     }
 
+    public function testRelativeHelperStartCommandDoesNotCdIntoSourceEvenWhenDefaultIsEmpty(): void
+    {
+        $this->assertSame(
+            'bash helpers/server.sh',
+            Deployments::startCommand(new Document(['startCommand' => 'bash helpers/server.sh']), '')
+        );
+
+        $this->assertSame(
+            'bash helpers/next-js/server.sh',
+            Deployments::startCommand(new Document(['startCommand' => 'bash helpers/next-js/server.sh']), '')
+        );
+
+        $this->assertSame(
+            'helpers/server.sh',
+            Deployments::startCommand(new Document(['startCommand' => 'helpers/server.sh']), '')
+        );
+    }
+
     public function testCustomStartCommandCdsIntoSourceAndEscapes(): void
     {
         $this->assertSame(
