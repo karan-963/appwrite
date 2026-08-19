@@ -280,6 +280,15 @@ readonly class Deployments
             return $default;
         }
 
+        if (
+            \str_starts_with($command, 'bash helpers/') ||
+            \str_starts_with($command, 'sh helpers/') ||
+            \str_starts_with($command, 'helpers/') ||
+            \str_starts_with($command, '/usr/local/server/helpers/')
+        ) {
+            return $command;
+        }
+
         $escaped = \str_replace(['"', '`', '$'], ['\\"', '\\`', '\\$'], $command);
 
         return 'cd /usr/local/server/src/function/ && ' . $escaped;
